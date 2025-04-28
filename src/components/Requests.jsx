@@ -1,12 +1,25 @@
 import axios from "axios";
 import { BASE_URL } from "../utils/Constants";
 import { useDispatch, useSelector } from "react-redux";
-import { addRequests } from "../utils/requestSlice";
-import { useEffect } from "react";
+import { addRequests, removeRequest } from "../utils/requestSlice";
+import { useEffect} from "react";
 
 const Requests = () => {
   const requests = useSelector((store) => store.requests);
   const dispatch = useDispatch();
+
+  const reviewRequest = async (status, _id) => {
+    try {
+      const res = axios.post(
+        BASE_URL + "/request/review/" + status + "/" + _id,
+        {},
+        { withCredentials: true }
+      );
+      dispatch(removeRequest(_id));
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   const fetchRequests = async () => {
     try {
@@ -26,22 +39,21 @@ const Requests = () => {
   if (!requests) return null;
 
   if (requests.length === 0) {
-    return <h1 className="text-center text-2xl mt-10 text-gray-400">No request is found. 😞</h1>;
+    return (
+      <h1 className="text-center text-2xl mt-10 text-gray-400">
+        No request is found. 😞
+      </h1>
+    );
   }
 
   return (
     <div className="text-center my-10">
-      <h1 className="font-bold text-3xl text-white mb-8">Connection Requests</h1>
+      <h1 className="font-bold text-3xl text-white mb-8">
+        Connection Requests
+      </h1>
       {requests.map((request, index) => {
-        const {
-          firstName,
-          lastName,
-          photoUrl,
-          about,
-          age,
-          gender,
-          _id,
-        } = request?.fromUserId || {};
+        const { firstName, lastName, photoUrl, about, age, gender, _id } =
+          request?.fromUserId || {};
 
         return (
           <div
@@ -58,14 +70,28 @@ const Requests = () => {
                 <h2 className="font-bold text-xl text-white">
                   {firstName + " " + lastName}
                 </h2>
-                {age && gender && <p className="text-gray-300">{age}, {gender}</p>}
+                {age && gender && (
+                  <p className="text-gray-300">
+                    {age}, {gender}
+                  </p>
+                )}
                 {about && <p className="text-gray-400">{about}</p>}
               </div>
             </div>
 
             <div className="flex gap-3">
-              <button className="btn btn-outline btn-error">Reject</button>
-              <button className="btn btn-outline btn-success">Accept</button>
+              <button
+                className="btn btn-outline btn-error"
+                onClick={() => reviewRequest("rejected", request._id)}
+              >
+                Reject
+              </button>
+              <button
+                className="btn btn-outline btn-success"
+                onClick={() => reviewRequest("accepted", request._id)}
+              >
+                Accept
+              </button>
             </div>
           </div>
         );

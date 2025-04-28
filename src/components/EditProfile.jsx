@@ -114,19 +114,19 @@ const EditProfile = ({ user }) => {
                     <span className="label-text">About</span>
                   </div>
                   <textarea
-                  className="textarea textarea-bordered w-full max-w-xs"
-                  value={about}
-                  rows="4"
-                  placeholder="Tell us about yourself..."
-                  onChange={(event) => setAbout(event.target.value)}
-                />
+                    className="textarea textarea-bordered w-full max-w-xs"
+                    value={about}
+                    rows="4"
+                    placeholder="Tell us about yourself..."
+                    onChange={(event) => setAbout(event.target.value)}
+                  />
                 </label>
                 <p className="text-red-500">{error}</p>
               </div>
 
               <div className="card-actions justify-center m-2">
                 <button
-                  className="btn btn-active btn-accent"
+                  className="btn btn-outline btn-success"
                   onClick={saveProfile}
                 >
                   Save Pofile

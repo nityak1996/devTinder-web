@@ -14,8 +14,8 @@ const UserCard = ({ user }) => {
           </p>
           <p>{about}</p>
           <div className="card-actions justify-center my-4">
-            <button className="btn btn-primary">Ignore</button>
-            <button className="btn btn-secondary">Interested</button>
+            <button className="btn btn-outline btn-error">Ignore</button>
+            <button className="btn btn-outline btn-success">Interested</button>
           </div>
         </div>
       </div>
